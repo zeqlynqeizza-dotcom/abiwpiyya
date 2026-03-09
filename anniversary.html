@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 Year With U</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --warm-white: #fefcf8;
+    --brown-dark: #2e1f14;
+    --brown-mid: #6b4c3b;
+    --brown-light: #9a7558;
+    --tan: #b89070;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: #c8bfb4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    padding: 24px 16px;
+  }
+
+  .book-container { width: min(500px, 94vw); }
+
+  .page {
+    display: none;
+    background-color: var(--warm-white);
+    border-radius: 1px 5px 5px 1px;
+    padding: 52px 50px 62px 54px;
+    min-height: 620px;
+    position: relative;
+    box-shadow: -1px 0 3px rgba(0,0,0,0.06), 3px 3px 16px rgba(0,0,0,0.12), 8px 8px 36px rgba(0,0,0,0.07);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    animation: pageIn 0.4s ease forwards;
+  }
+
+  .page::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 22px;
+    background: linear-gradient(to right, rgba(140,110,80,0.11), transparent);
+    border-right: 1px solid rgba(140,110,80,0.1);
+    pointer-events: none;
+    border-radius: 1px 0 0 1px;
+  }
+
+  .page.active { display: block; }
+
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateX(6px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Cover */
+  .page-cover {
+    background-color: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 1px 5px 5px 1px;
+    box-shadow: 2px 2px 20px rgba(0,0,0,0.55), 8px 8px 48px rgba(0,0,0,0.22);
+    min-height: 620px;
+    padding: 64px 52px;
+  }
+
+  .page-cover::before { display: none; }
+
+  .cover-rule {
+    width: 32px;
+    height: 1px;
+    background: rgba(184,144,112,0.45);
+    margin: 0 auto 38px;
+  }
+
+  .cover-rule-b { margin: 38px auto 0; }
+
+  .cover-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.1rem, 7vw, 2.9rem);
+    font-weight: 300;
+    font-style: italic;
+    color: #ede8e0;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+  }
+
+  .cover-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.76rem;
+    font-weight: 400;
+    color: rgba(184,144,112,0.65);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    margin-top: 18px;
+  }
+
+  .cover-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: rgba(184,144,112,0.38);
+    letter-spacing: 0.2em;
+    margin-top: 9px;
+  }
+
+  /* Inner */
+  .page-num {
+    position: absolute;
+    bottom: 26px;
+    right: 38px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: var(--tan);
+    letter-spacing: 0.14em;
+  }
+
+  .chapter-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.66rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brown-light);
+    margin-bottom: 13px;
+  }
+
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--brown-dark);
+    line-height: 1.3;
+    margin-bottom: 26px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(154,117,88,0.18);
+  }
+
+  .page-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3.2vw, 1.1rem);
+    font-weight: 400;
+    color: #2e1e10;
+    line-height: 1.95;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .page-body p + p {
+    margin-top: 15px;
+    text-indent: 1.5em;
+  }
+
+  em {
+    font-style: italic;
+    color: var(--brown-mid);
+  }
+
+  /* Closing */
+  .page-closing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 620px;
+  }
+
+  .closing-block { margin-top: 44px; }
+
+  .closing-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--tan);
+    margin-bottom: 8px;
+  }
+
+  .closing-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--brown-dark);
+    letter-spacing: 0.01em;
+  }
+
+  /* Nav */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding: 0 2px;
+  }
+
+  .nav-btn {
+    background: rgba(254,252,248,0.55);
+    border: 1px solid rgba(154,117,88,0.28);
+    color: var(--brown-mid);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.76rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background-color: #0f0f0f;
+    color: #ede8e0;
+    border-color: #0f0f0f;
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.2;
+    cursor: default;
+    background: none;
+  }
+
+  .nav-dots { display: flex; gap: 7px; align-items: center; }
+
+  .nav-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background-color: rgba(154,117,88,0.25);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-dot.active {
+    background-color: var(--brown-mid);
+    transform: scale(1.4);
+  }
+
+  @media (max-width: 440px) {
+    .page { padding: 38px 32px 52px 38px; }
+    .page-cover { padding: 52px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="book-container">
+
+  <!-- Cover -->
+  <div class="page page-cover active" id="page-0">
+    <div class="cover-rule"></div>
+    <div class="cover-title">1 Year With U</div>
+    <div class="cover-sub">a little book for u</div>
+    <div class="cover-date">100325 — 100326</div>
+    <div class="cover-rule cover-rule-b"></div>
+  </div>
+
+  <!-- Page 1 -->
+  <div class="page" id="page-1">
+    <div class="chapter-label">Chapter I</div>
+    <div class="page-title">How We Meet</div>
+    <div class="page-body">
+      <p>Awalnya cuma iseng masuk room voice — salah satu OS yang isinya orang-orang random ngobrol. Biasa aja sebenernya, nggak ada ekspektasi apa-apa.</p>
+      <p>Tapi entah kenapa ada satu orang yang bikin penasaran. Namanya <em>piyya</em>. Dari situ langsung iseng ngestalk instagramnya — ternyata cosplayer. Dan cakep parah. Agak bengong juga waktu itu, tapi ya pura-pura biasa aja lah.</p>
+      <p>Di room itu kita ngobrol ngalir gitu aja, cerita macem-macem, saling ejek, ketawa nggak jelas. Receh sih sebenernya, tapi entah kenapa nyaman banget. Sampai aku ngerasa pengen lanjut ngobrol sama dia di luar room. Ya udah chat aja, basa-basi dulu, santai.</p>
+      <p>Dan ternyata ngobrol sama dia tuh gampang banget. Nggak canggung sama sekali, nggak ada jeda awkward yang bikin pengen kabur. Dia bisa bikin nyaman tanpa keliatan usaha. Ngobrol yang harusnya sebentar malah kelarut-larut, nggak kerasa udah lama banget.</p>
+      <p>Terus dia mulai manggil aku <em>abiw</em>. Nggak tau juga sih itu dari mana, tapi seneng aja gitu dipanggil dia kayak gitu. Dan dari situ kayak... beda. Bukan lagi cuma kenalan random dari room voice biasa.</p>
+    </div>
+    <div class="page-num">01</div>
+  </div>
+
+  <!-- Page 2 -->
+  <div class="page" id="page-2">
+    <div class="chapter-label">Chapter II</div>
+    <div class="page-body" style="margin-top: 6px;">
+      <p>Haii cintaku, ga kerasa uda setahun ya. Waktu emang jalan cepet banget, tapi di sisi lain rasanya kaya uda lama banget kenal kamu — lama dalam artian yang bikin nyaman gitu. Kayak udah natural aja kamu ada di hidup abiw.</p>
+      <p>Banyak hal yang abiw inget dari setahun ini, bukan yang gede-gede aja tapi justru yang kecil-kecil itu yang paling nempel di kepala. Cara kamu ketawa waktu ada yang lucu, cara kamu cerita hal random dengan semangat kaya itu hal paling penting di dunia, atau waktu kamu diem aja tapi abiw <em>somehow</em> ngerti kamu lagi mikirin sesuatu. Hal-hal kecil kayak gitu yang bikin abiw sadar — oh ternyata orang ini beda.</p>
+      <p>Abiw juga mau bilang makasih ya udah sabar sama abiw. Abiw tau abiw ga selalu gampang, dan ada hari-hari di mana abiw mungkin bikin kamu capek atau bingung, tapi kamu tetep ada. Itu bukan hal kecil piyya, <em>that means a lot</em> seriously.</p>
+      <p>Setahun ini bukan berarti semuanya sempurna — dan abiw ga mau pura-pura iya. Justru di bagian yang ga sempurna itu abiw banyak belajar tentang kamu, tentang kita. Dan abiw beneran bersyukur bisa ngelewatin semua itu sama kamu.</p>
+      <p>Semoga kita bisa terus tumbuh bareng ya, bukan cuma ngerayain tanggal doang tapi beneran jadi orang yang selalu ada buat satu sama lain, <em>through everything</em>. Happy 1st Anniversary sayangku, abiw love u so muchhh. Besok kita beli somtam yaa mwahhh.</p>
+    </div>
+    <div class="page-num">02</div>
+  </div>
+
+  <!-- Page 3 Closing -->
+  <div class="page page-closing" id="page-3">
+    <div class="page-body" style="font-size: 1.08rem; line-height: 2; text-align: justify;">
+      <p>Terima kasih udah ada, terima kasih udah jadi kamu.</p>
+    </div>
+
+    <div class="closing-block">
+      <div class="closing-label">with all the love</div>
+      <div class="closing-name">abiw</div>
+    </div>
+
+    <div class="closing-block" style="margin-top: 30px;">
+      <div class="closing-label">for</div>
+      <div class="closing-name">piyy dudut</div>
+    </div>
+
+    <div class="page-num">03</div>
+  </div>
+
+  <!-- Nav -->
+  <div class="nav">
+    <button class="nav-btn" id="btn-prev" onclick="changePage(-1)" disabled>← prev</button>
+    <div class="nav-dots" id="nav-dots"></div>
+    <button class="nav-btn" id="btn-next" onclick="changePage(1)">next →</button>
+  </div>
+
+</div>
+
+<script>
+  const total = 4;
+  let cur = 0;
+  const dots = document.getElementById('nav-dots');
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dots.appendChild(d);
+  }
+
+  function goTo(n) {
+    document.getElementById('page-' + cur).classList.remove('active');
+    dots.children[cur].classList.remove('active');
+    cur = n;
+    document.getElementById('page-' + cur).classList.add('active');
+    dots.children[cur].classList.add('active');
+    document.getElementById('btn-prev').disabled = cur === 0;
+    document.getElementById('btn-next').disabled = cur === total - 1;
+  }
+
+  function changePage(dir) {
+    const n = cur + dir;
+    if (n >= 0 && n < total) goTo(n);
+  }
+
+  let sx = 0;
+  document.querySelector('.book-container').addEventListener('touchstart', e => sx = e.touches[0].clientX);
+  document.querySelector('.book-container').addEventListener('touchend', e => {
+    const diff = sx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) changePage(diff > 0 ? 1 : -1);
+  });
+</script>
+</body>
+</html>
